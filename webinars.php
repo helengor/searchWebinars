@@ -1,3 +1,8 @@
+/**
+* Наследует из существующего класса вебинаров компании абстрактный класс вебинаров по цифровым учебникам, 
+* из него наследует классы планиремых вебинаров и прошедших
+*/
+
 abstract class WebinarsListDigital extends WebinarsList {
 
     public function __construct($page = 1, $filter = array(), $limit = 10) {
