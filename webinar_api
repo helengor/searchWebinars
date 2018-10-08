@@ -1,0 +1,27 @@
+//Получаем запрос от клиента на страницу с вебинарами и отдаем json
+
+$webinar_obj = $_POST;
+
+switch ( $webinar_obj['type']){
+    case 'future':
+        $webinars = new WebinarsListDigitalFuture(
+            $webinar_obj['page'] != '' ? $webinar_obj['page'] : 1,
+            $webinar_obj['spec'] != '' ? explode(",", $webinar_obj['spec']) : array()
+        );
+        $records = $webinars->nodes('asc');
+    break;
+    case 'archive':
+        $webinars = new WebinarsListDigitalArchive(
+            $webinar_obj['page'] != '' ? $webinar_obj['page'] : 1,
+            $webinar_obj['spec'] != '' ? explode(",", $webinar_obj['spec']) : array()
+        );
+        $records = $webinars->nodes();
+        break;
+    break;
+}
+
+
+foreach ($records as &$record) {
+    $record['date'] = \PROSV\Main\Helper::formatDate($record['date']);
+}
+echo json_encode($records, JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
